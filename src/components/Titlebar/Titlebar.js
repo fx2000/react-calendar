@@ -14,7 +14,7 @@ const Titlebar = () => {
   return (
     <Navbar bg="dark" variant="dark">
       <Navbar.Brand href="/">
-        <FontAwesomeIcon icon={faCalendarAlt} />
+        <FontAwesomeIcon icon={faCalendarAlt} />{' '}
         Calendar
       </Navbar.Brand>
     </Navbar>
