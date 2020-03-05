@@ -103,12 +103,6 @@ const Calendar = () => {
       {controls()}
       {weekdays()}
       {dates()}
-      <footer className='footer-buttons'>
-        <FontAwesomeIcon icon='plus-circle'
-          onClick={() => setCurrentDate(addMonths(currentDate, 1))}
-        />
-        <a href='/'>Add a reminder...</a>
-      </footer>
     </section>
   );
 };

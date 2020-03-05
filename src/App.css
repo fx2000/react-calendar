@@ -71,9 +71,6 @@ nav {
   display: flex;
   align-items: center;
   justify-content: left;
+  margin: 0 8% 0 8%;
   padding-top: 10px;
-}
-
-.footer-buttons > a {
-  padding-left: 10px;
 }
