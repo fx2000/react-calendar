@@ -13,6 +13,12 @@ import {
 } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Compopnents
+import Reminder from '../Reminder/Reminder';
+
+// Custom hooks
+import useModal from '../../hooks/useModal';
+
 const Calendar = () => {
   // Date hooks
   const [
@@ -98,11 +104,24 @@ const Calendar = () => {
     return <div className='weeks'>{weeks}</div>;
   };
 
+  // Modal toggle
+  const { isShowing, toggle } = useModal();
+
   return (
     <section className='calendar'>
       {controls()}
       {weekdays()}
       {dates()}
+      <div className='footer-buttons'>
+        <FontAwesomeIcon
+          icon='plus-circle'
+          onClick={toggle}
+        />
+      </div>
+      <Reminder
+        isShowing={isShowing}
+        hide={toggle}
+      />
     </section>
   );
 };
