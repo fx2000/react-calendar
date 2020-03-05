@@ -70,5 +70,10 @@ nav {
 .footer-buttons {
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: left;
+  padding-top: 10px;
+}
+
+.footer-buttons > a {
+  padding-left: 10px;
 }
