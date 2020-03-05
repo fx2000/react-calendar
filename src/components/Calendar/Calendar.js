@@ -9,9 +9,7 @@ import {
   endOfMonth,
   endOfWeek,
   isSameMonth,
-  isSameDay,
-  isToday,
-  parse
+  isSameDay
 } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
