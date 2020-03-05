@@ -1,14 +1,15 @@
 import { useState } from 'react';
 
 const useModal = () => {
-  const [show, setShow] = useState(false);
+  const [isShowing, setShow] = useState(false);
 
+  // Toggle modal status
   function toggle () {
-    setShow(!show);
+    setShow(!isShowing);
   }
 
   return {
-    show, toggle
+    isShowing, toggle
   };
 };
 
