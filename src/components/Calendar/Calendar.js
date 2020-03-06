@@ -13,12 +13,11 @@ import {
 } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modali, { useModali } from 'modali';
-
-// Components
+import { useForm } from 'react-hook-form';
 import DailyReminders from '../DailyReminders/DailyReminders';
-
-// Bootstrap Components
-import { Table, Form } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Calendar = () => {
   // Date handlers
@@ -30,7 +29,7 @@ const Calendar = () => {
     setSelectedDate
   ] = useState(new Date());
 
-  // Modal toggles TODO: Build a reusable modal with children properties
+  // Modal toggles
   const [remindersModal, toggleRemindersModal] = useModali({
     animated: true,
     large: true,
@@ -45,11 +44,6 @@ const Calendar = () => {
     onHide: () => console.log('I\'m hidden')
   });
 
-  const showDetails = event => {
-    toggleDetailsModal();
-    console.log(event);
-  };
-
   // Calendar: Reminders
   const [reminders, setReminders] = useState([]);
   const addReminder = (date, description, city, color) => {
@@ -63,6 +57,23 @@ const Calendar = () => {
       }
     ]);
   };
+  const [selectedReminder, setSelectedReminder] = useState({});
+  const showDetails = (index, reminder) => {
+    toggleDetailsModal();
+    setSelectedReminder(reminders[index]);
+    console.log(selectedReminder);
+  };
+
+  // Reminder Form
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = data => {
+    console.log(data);
+    addReminder(newReminderDate, data.description, data.city, data.color);
+  };
+  console.log(errors);
+
+  // Datepicker
+  const [newReminderDate, setNewReminderDate] = useState(new Date());
 
   // Calendar: header and controls
   const controls = () => {
@@ -165,7 +176,7 @@ const Calendar = () => {
       <div className='footer-buttons'>
         <FontAwesomeIcon
           icon='plus-circle'
-          onClick={() => addReminder(selectedDate, 'This is a sample reminder', 'Miami', '#ddd')}
+          onClick={() => toggleDetailsModal()}
         />
       </div>
       {/* Reminders List Modal */}
@@ -181,7 +192,7 @@ const Calendar = () => {
           <tbody>
             {
               reminders.filter(reminder => isSameDay(reminder.date, selectedDate)).map((reminder, index) =>
-                <tr key={index} className='daily-reminder' style={{ backgroundColor: reminder.color }} onClick={() => console.log('1')}>
+                <tr key={index} className='daily-reminder' style={{ backgroundColor: reminder.color }} onClick={() => showDetails(index, reminder)}>
                   <td>{format(reminder.date, 'hh:mm a')}</td>
                   <td>{reminder.description}</td>
                   <td>{reminder.city}</td>
@@ -194,26 +205,27 @@ const Calendar = () => {
 
       {/* Reminder Details Modal */}
       <Modali.Modal {...detailsModal}>
-        <Table responsive className="table" hover>
-          <thead>
-            <tr>
-              <th>Time!!</th>
-              <th>Reminder</th>
-              <th>Location</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              reminders.filter(reminder => isSameDay(reminder.date, selectedDate)).map((reminder, index) =>
-                <tr key={index} className='daily-reminder' style={{ backgroundColor: reminder.color }}>
-                  <td>{format(reminder.date, 'hh:mm a')}</td>
-                  <td>{reminder.description}</td>
-                  <td>{reminder.city}</td>
-                </tr>
-              )
-            }
-          </tbody>
-        </Table>
+        <form onSubmit={handleSubmit(onSubmit)} className='reminder-form'>
+          <label htmlFor='description'>Reminder:</label>
+          <input type="text" placeholder="Reminder" name="description" ref={register({ required: true, maxLength: 30 })} />
+          <label htmlFor='datetime'>Date & Time:</label>
+          <DatePicker
+            name='datetime'
+            selected={newReminderDate}
+            onChange={date => setNewReminderDate(date)}
+            showTimeSelect
+            timeFormat='HH:mm'
+            timeIntervals={15}
+            timeCaption='time'
+            dateFormat='MMMM d, yyyy h:mm aa'
+          />
+          <label htmlFor='city'>City:</label>
+          <input type="text" placeholder="City" name="city" ref={register({ required: true, maxLength: 30 })} />
+          <label htmlFor='color'>Color:</label>
+          <input type="color" placeholder="Color" name="color" ref={register({ required: true })} />
+
+          <input type="submit" />
+        </form>
       </Modali.Modal>
     </section>
   );

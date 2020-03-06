@@ -129,3 +129,14 @@ nav {
   border-radius: 3px;
   cursor: pointer;
 }
+
+.reminder-form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 20px;
+}
+
+.form-button {
+  margin-top: 10px;
+  max-width: 100px;
+}
