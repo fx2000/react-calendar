@@ -49,6 +49,7 @@ nav {
 .days-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  grid-auto-columns: 100px;
 }
 
 .days {
@@ -92,7 +93,6 @@ nav {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 110;
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -100,7 +100,6 @@ nav {
 }
 
 .modal-main {
-  z-index: 120;
   background: white;
   position: relative;
   margin: 1.75rem auto;
@@ -115,4 +114,18 @@ nav {
   position: relative;
   display: flex;
   justify-content: flex-end;
+}
+
+.daily-reminder-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.daily-reminder {
+  margin: 2px;
+  font-size: calc(10px + 0.25vmin);
+  border-radius: 3px;
+  cursor: pointer;
 }

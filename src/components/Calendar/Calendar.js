@@ -12,23 +12,57 @@ import {
   isSameDay
 } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Modali, { useModali } from 'modali';
 
-// Compopnents
-import Reminder from '../Reminder/Reminder';
+// Components
+import DailyReminders from '../DailyReminders/DailyReminders';
 
-// Custom hooks
-import useModal from '../../hooks/useModal';
+// Bootstrap Components
+import { Table, Form } from 'react-bootstrap';
 
 const Calendar = () => {
-  // Date hooks
+  // Date handlers
   const [
     currentDate,
     setCurrentDate
   ] = useState(new Date());
-  const [
-    selectedDate,
+  const [selectedDate,
     setSelectedDate
   ] = useState(new Date());
+
+  // Modal toggles TODO: Build a reusable modal with children properties
+  const [remindersModal, toggleRemindersModal] = useModali({
+    animated: true,
+    large: true,
+    title: selectedDate ? format(selectedDate, 'eee MMMMMM d yyyy')
+      : format(currentDate, 'eee MMMMMM d yyyy'),
+    onHide: () => console.log('I\'m hidden')
+  });
+  const [detailsModal, toggleDetailsModal] = useModali({
+    animated: true,
+    large: true,
+    title: 'Reminders',
+    onHide: () => console.log('I\'m hidden')
+  });
+
+  const showDetails = event => {
+    toggleDetailsModal();
+    console.log(event);
+  };
+
+  // Calendar: Reminders
+  const [reminders, setReminders] = useState([]);
+  const addReminder = (date, description, city, color) => {
+    setReminders([
+      ...reminders,
+      {
+        date: date,
+        description: description,
+        city: city,
+        color: color
+      }
+    ]);
+  };
 
   // Calendar: header and controls
   const controls = () => {
@@ -79,19 +113,37 @@ const Calendar = () => {
     while (day <= dateEnd) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, 'd');
-        const cloneDay = day;
+        const copyOfDay = day; // Removes unsafe reference warning
+        const dailyReminders = reminders.filter(reminder => isSameDay(copyOfDay, reminder.date));
 
         days.push(
           <div
             className={
-              `${!isSameMonth(day, monthStart) ? 'disabled'
+              `days ${!isSameMonth(day, monthStart) ? 'disabled'
                 : isSameDay(day, selectedDate) ? 'selected'
                 : ''}`
             }
             key={day}
-            onClick={() => setSelectedDate(cloneDay) }
+            onClick={
+              () => {
+                // TODO: Disable clicking out of month days
+                setSelectedDate(copyOfDay);
+                toggleRemindersModal();
+              }
+            }
           >
-            <span className='days'>{formattedDate}</span>
+            <span>{formattedDate}</span>
+            <div className='daily-reminder-list'>
+              {
+                dailyReminders.map((reminder, index) =>
+                  <DailyReminders
+                    key={index}
+                    description={reminder.description}
+                    color={reminder.color}
+                  />
+                )
+              }
+            </div>
           </div>
         );
         day = addDays(day, 1);
@@ -104,24 +156,65 @@ const Calendar = () => {
     return <div className='weeks'>{weeks}</div>;
   };
 
-  // Modal toggle
-  const { isShowing, toggle } = useModal();
-
   return (
     <section className='calendar'>
       {controls()}
       {weekdays()}
       {dates()}
+
       <div className='footer-buttons'>
         <FontAwesomeIcon
           icon='plus-circle'
-          onClick={toggle}
+          onClick={() => addReminder(selectedDate, 'This is a sample reminder', 'Miami', '#ddd')}
         />
       </div>
-      <Reminder
-        isShowing={isShowing}
-        hide={toggle}
-      />
+      {/* Reminders List Modal */}
+      <Modali.Modal {...remindersModal}>
+        <Table responsive className="reminders-table" hover>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Reminder</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              reminders.filter(reminder => isSameDay(reminder.date, selectedDate)).map((reminder, index) =>
+                <tr key={index} className='daily-reminder' style={{ backgroundColor: reminder.color }} onClick={() => console.log('1')}>
+                  <td>{format(reminder.date, 'hh:mm a')}</td>
+                  <td>{reminder.description}</td>
+                  <td>{reminder.city}</td>
+                </tr>
+              )
+            }
+          </tbody>
+        </Table>
+      </Modali.Modal>
+
+      {/* Reminder Details Modal */}
+      <Modali.Modal {...detailsModal}>
+        <Table responsive className="table" hover>
+          <thead>
+            <tr>
+              <th>Time!!</th>
+              <th>Reminder</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              reminders.filter(reminder => isSameDay(reminder.date, selectedDate)).map((reminder, index) =>
+                <tr key={index} className='daily-reminder' style={{ backgroundColor: reminder.color }}>
+                  <td>{format(reminder.date, 'hh:mm a')}</td>
+                  <td>{reminder.description}</td>
+                  <td>{reminder.city}</td>
+                </tr>
+              )
+            }
+          </tbody>
+        </Table>
+      </Modali.Modal>
     </section>
   );
 };
