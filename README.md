@@ -13,10 +13,10 @@ Weather information is provided by the OpenWeather API.
 ## Features
 
 All basic functionality was achieved, the following bonus features are included:  
-● Calendar expansion (the calendar can correctly display any month/year combination)
+● Calendar expansion (the calendar can correctly display any month/year combination)  
+● Reminder deletion
 
-<!-- ● Reminder deletion
-● Daily reminders deletion
+<!--● Daily reminders deletion
 ● Reminder overflow in a single day -->
 
 ## Original Assignment

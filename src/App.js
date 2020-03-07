@@ -1,9 +1,8 @@
 import React from 'react';
 import './App.css';
 
-// Components
 import Navbar from './components/Navbar/Navbar';
-import Calendar from './components/Calendar/Calendar';
+import Calendar from './pages/Calendar/Calendar';
 
 // FontAwesome Icons
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -12,7 +11,8 @@ import {
   faChevronLeft,
   faChevronRight,
   faCalendarAlt,
-  faPlusCircle
+  faPlusCircle,
+  faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -20,7 +20,8 @@ library.add(
   faChevronLeft,
   faChevronRight,
   faCalendarAlt,
-  faPlusCircle
+  faPlusCircle,
+  faTimesCircle
 );
 
 const App = () => {
