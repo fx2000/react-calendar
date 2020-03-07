@@ -18,8 +18,6 @@ import { useForm } from 'react-hook-form';
 import { Table } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import ReactWeather from 'react-open-weather';
-import 'react-open-weather/lib/css/ReactWeather.css';
 
 const Calendar = () => {
   // Date handlers
@@ -58,6 +56,9 @@ const Calendar = () => {
     setReminders(reminders.filter((reminder, index) => index !== reminderIndex));
   };
 
+  // Datepicker
+  const [newReminderDate, setNewReminderDate] = useState(new Date());
+
   // Reminder Form
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -71,9 +72,6 @@ const Calendar = () => {
     setSelectedDate(currentDate);
     toggleDetailsModal();
   };
-
-  // Datepicker
-  const [newReminderDate, setNewReminderDate] = useState(new Date());
 
   // Modal toggles
   const [remindersModal, toggleRemindersModal] = useModali({
@@ -190,6 +188,22 @@ const Calendar = () => {
     return <div className='weeks'>{weeks}</div>;
   };
 
+  // OpenWeather API TODO: Move API key to local env file
+  const weatherApiCall = async city => {
+    const apiCall = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=e4222812569564ba170882b5d2c1c72f&units=metric`);
+    const data = await apiCall.json();
+    return data;
+  };
+
+  // TODO: Post weather forecast to calendar
+  const postWeather = data => {
+    console.log(data);
+  };
+
+  const getWeather = city => {
+    weatherApiCall(city).then(data => postWeather(data));
+  };
+
   return (
     <section className='calendar'>
       {controls()}
@@ -200,23 +214,17 @@ const Calendar = () => {
         <FontAwesomeIcon
           icon='plus-circle'
           onClick={() => toggleDetailsModal()}
-        />
+        /><p>Add new reminder...</p>
       </div>
       {/* Reminders List Modal */}
       <Modali.Modal {...remindersModal}>
-        <ReactWeather
-          forecast="today"
-          apikey="e4222812569564ba170882b5d2c1c72f"
-          unit="metric"
-          type="city"
-          city="Munich"
-        />
         <Table responsive className="reminders-table" hover>
           <thead>
             <tr>
               <th>Time</th>
               <th>Reminder</th>
               <th>Location</th>
+              <th>Weather</th>
             </tr>
           </thead>
           <tbody>
@@ -235,6 +243,8 @@ const Calendar = () => {
                       <td>{format(reminder.date, 'hh:mm a')}</td>
                       <td>{reminder.description}</td>
                       <td>{reminder.city}</td>
+                      <td>Weather Info Placeholder
+                      </td>
                       <td>
                         <FontAwesomeIcon
                           icon='times-circle'
@@ -260,13 +270,14 @@ const Calendar = () => {
           />
           <label htmlFor='datetime'>Date & Time:</label>
           <DatePicker
-            name='datetime'
             selected={selectedDate}
             onChange={date => setNewReminderDate(date)}
             showTimeSelect
-            timeFormat='HH:mm'
-            timeCaption='Time'
-            dateFormat='MMMM d, yyyy h:mm aa'
+            timeFormat="HH:mm"
+            timeIntervals={30}
+            timeCaption="time"
+            dateFormat="MMMM d, yyyy h:mm aa"
+            todayButton="Today"
           />
           <label htmlFor='city'>City:</label>
           <input

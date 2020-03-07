@@ -72,48 +72,12 @@ nav {
 
 .footer-buttons {
   display: flex;
-  align-items: center;
   justify-content: left;
   padding-top: 10px;
 }
 
-/* Reminder modal TODO: Fix background transparency (z-index issue)*/
-/* .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  width: 100vw;
-  height: 100vh;
-  background-color: #000;
-  opacity: 0.5;
-} */
-
-.modal-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  outline: 0;
-}
-
-.modal-main {
-  background: white;
-  position: relative;
-  margin: 1.75rem auto;
-  border-radius: 3px;
-  border: solid 1px;
-  margin-top: 10%;
-  max-width: 600px;
-  padding: 2rem;
-}
-
-.modal-header {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
+.footer-buttons > p {
+  padding-left: 5px;
 }
 
 .daily-reminder-list {

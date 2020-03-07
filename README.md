@@ -1,8 +1,9 @@
 # Jobsity Calendar
 
 The app was designed using React Hooks to handle the state and it not connected to a back-end server or database. All information entered in the calendar is volatile and will disappear upon page reload.  
-The following libraries were used during development:  
-● React Bootstrap (Minor UI components)
+The following libraries were used during development:
+
+● React Bootstrap (Minor UI components)  
 ● React Hook Forms (Form handling)  
 ● React Datepicker (Datepicker controls)  
 ● Modali (Modal management)  
@@ -12,12 +13,10 @@ Weather information is provided by the OpenWeather API.
 
 ## Features
 
-All basic functionality was achieved, the following bonus features are included:  
+Basic functionality was achieved except for reminder edit and weather forecasting, the following bonus features are included:
+
 ● Calendar expansion (the calendar can correctly display any month/year combination)  
 ● Reminder deletion
-
-<!--● Daily reminders deletion
-● Reminder overflow in a single day -->
 
 ## Original Assignment
 
