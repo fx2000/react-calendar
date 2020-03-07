@@ -1,68 +1,66 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Jobsity Calendar
 
-## Available Scripts
+The app was designed using React Hooks to handle the state and it not connected to a back-end server or database. All information entered in the calendar is volatile and will disappear upon page reload.  
+The following libraries were used during development:  
+● React Bootstrap (Minor UI components)
+● React Hook Forms (Form handling)  
+● React Datepicker (Datepicker controls)  
+● Modali (Modal management)  
+● date-fns (Date management)  
+● React Open Weather (Weather forecasrting)  
+Weather information is provided by the OpenWeather API.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+All basic functionality was achieved, the following bonus features are included:  
+● Calendar expansion (the calendar can correctly display any month/year combination)
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<!-- ● Reminder deletion
+● Daily reminders deletion
+● Reminder overflow in a single day -->
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Original Assignment
 
-### `npm test`
+### Description
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project is designed to test your knowledge of front-end web technologies and assess your
+ability to create front-end UI products with attention to details, cross-browser compatibility,
+standards, and reusability.
 
-### `npm run build`
+### Assignment
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The goal of this exercise is to create a demo calendar application using React, Vue or Angular.
+You should start by rendering a single month view of a calendar for the current month.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Mandatory Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+● Ability to add a new "reminder" (max 30 chars) for a user entered day and time. Also,
+include a city.  
+● Display reminders on the calendar view in the correct time order.  
+● Allow the user to select color when creating a reminder and display it appropriately.  
+● Ability to edit reminders – including changing text, city, day, time and color.  
+● Add a weather service call from a free API such as Open Weather Map, and get the
+weather forecast (ex. Rain) for the date of the calendar reminder based on the city.  
+● Unit test the functionality: Ability to add a new "reminder" (max 30 chars) for a user
+entered day and time. Also, include a city.
 
-### `npm run eject`
+### Bonus (Optional)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+● Expand the calendar to support more than the current month.  
+● Properly handle overflow when multiple reminders appear on the same date.  
+● Functionality to delete one or ALL the reminders for a specific day
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Considerations
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+● Redux (or any other state manager) structure of the calendar.  
+● The project is totally focused on the front-end; please ignore the back-end.  
+● Keep your code versioned with Git.  
+● Feel free to use small helper libraries for:  
+○ UI Elements.  
+○ Date/Time handling.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Deliverables
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+When you finish the assignment, send a zip file (don’t forget to include the .git/ folder.) or upload
+your project to your Git repo (Github, BitBucket, etc...) and share the repository link with your
+initial contact via email. Indicate which, if any, of the bonus tasks you completed.
