@@ -266,6 +266,13 @@ const Calendar = () => {
             name="description"
             ref={register({ required: true, maxLength: 30 })}
           />
+          <label htmlFor='city'>City:</label>
+          <input
+            type="text"
+            placeholder="City"
+            name="city"
+            ref={register({ required: true, maxLength: 30 })}
+          />
           <label htmlFor='datetime'>Date & Time:</label>
           <DatePicker
             selected={startDate}
@@ -276,13 +283,6 @@ const Calendar = () => {
             timeCaption="time"
             dateFormat="MMMM d, yyyy h:mm aa"
             todayButton="Today"
-          />
-          <label htmlFor='city'>City:</label>
-          <input
-            type="text"
-            placeholder="City"
-            name="city"
-            ref={register({ required: true, maxLength: 30 })}
           />
           <label htmlFor='color'>Color:</label>
           <input
