@@ -17,7 +17,7 @@
     "react": "^16.13.0",
     "react-big-calendar": "^0.24.0",
     "react-bootstrap": "^1.0.0-beta.17",
-    "react-datepicker": "^2.13.0",
+    "react-datepicker": "^2.14.0",
     "react-dom": "^16.13.0",
     "react-hook-form": "^4.10.2",
     "react-open-weather": "^0.6.2",

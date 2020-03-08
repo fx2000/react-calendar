@@ -23,6 +23,7 @@ const Calendar = () => {
   // Date handlers
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date());
 
   // Calendar: Reminders
   const [reminders, setReminders] = useState([]);
@@ -56,9 +57,6 @@ const Calendar = () => {
     setReminders(reminders.filter((reminder, index) => index !== reminderIndex));
   };
 
-  // Datepicker
-  const [newReminderDate, setNewReminderDate] = useState(new Date());
-
   // Reminder Form
   const { register, handleSubmit } = useForm({
     defaultValues: {
@@ -68,7 +66,7 @@ const Calendar = () => {
     }
   });
   const onSubmit = data => {
-    addReminder(newReminderDate, data.description, data.city, data.color);
+    addReminder(startDate, data.description, data.city, data.color);
     setSelectedDate(currentDate);
     toggleDetailsModal();
   };
@@ -270,8 +268,8 @@ const Calendar = () => {
           />
           <label htmlFor='datetime'>Date & Time:</label>
           <DatePicker
-            selected={selectedDate}
-            onChange={date => setNewReminderDate(date)}
+            selected={startDate}
+            onChange={date => setStartDate(date)}
             showTimeSelect
             timeFormat="HH:mm"
             timeIntervals={30}
