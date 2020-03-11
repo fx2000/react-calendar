@@ -79,7 +79,6 @@ router.put('/:id/update', async (req, res, next) => {
     }, {
       new: true
     });
-    console.log(updateReminder);
     res.status(200).json(updateReminder);
     return;
   } catch (error) {
@@ -99,7 +98,6 @@ router.get('/:id/delete', async (req, res, next) => {
     }, {
       new: true
     });
-
     res.status(200).json(deleteReminder);
     return;
   } catch (error) {
@@ -113,7 +111,6 @@ router.get('/:id', async (req, res, next) => {
 
   try {
     const reminder = await Reminder.findById(id);
-
     res.status(200).json(reminder);
     return;
   } catch (error) {
