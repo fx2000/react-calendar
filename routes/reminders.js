@@ -33,8 +33,19 @@ router.post('/create', async (req, res, next) => {
     };
 
     const newReminder = await Reminder.create(newReminderData);
+    await newReminder.save();
+
     res.status(200).json(newReminder);
     return;
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Delete reminders per date
+router.get('/date/delete/:date', async (req, res, next) => {
+  try {
+
   } catch (error) {
     next(error);
   }
@@ -49,17 +60,8 @@ router.get('/date/:date', async (req, res, next) => {
   }
 });
 
-// Delete reminders per date
-router.get('/date/:date/delete', async (req, res, next) => {
-  try {
-
-  } catch (error) {
-    next(error);
-  }
-});
-
 // Update reminder
-router.put('/:id/update', async (req, res, next) => {
+router.put('/update/:id', async (req, res, next) => {
   const { id } = req.params;
   const {
     description,
@@ -69,16 +71,15 @@ router.put('/:id/update', async (req, res, next) => {
   } = req.body;
 
   try {
-    const updateReminder = await Reminder.findOneAndUpdate(id, {
-      $set: {
-        description: description,
-        city: city,
-        color: color,
-        datetime: datetime
-      }
-    }, {
-      new: true
+    const updateReminder = await Reminder.findOne({ _id: id });
+    Object.assign(updateReminder, {
+      description: description,
+      city: city,
+      color: color,
+      datetime: datetime
     });
+    await updateReminder.save();
+
     res.status(200).json(updateReminder);
     return;
   } catch (error) {
@@ -87,7 +88,7 @@ router.put('/:id/update', async (req, res, next) => {
 });
 
 // Delete reminder
-router.get('/:id/delete', async (req, res, next) => {
+router.get('/delete/:id', async (req, res, next) => {
   const { id } = req.params;
 
   try {
