@@ -13,8 +13,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
 // Routes
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const remindersRouter = require('./routes/reminders');
 
 // Database connection
 mongoose
@@ -23,8 +22,7 @@ mongoose
     useCreateIndex: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    keepAlive: true,
-    reconnectTries: Number.MAX_VALUE
+    keepAlive: true
   })
   .then(x => {
     console.log(`Connected to MongoDB! Database name: '${x.connections[0].name}"`);
@@ -66,8 +64,7 @@ app.use(
 );
 
 // Routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', remindersRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {

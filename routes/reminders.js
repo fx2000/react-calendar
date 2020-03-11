@@ -5,7 +5,11 @@ const Reminder = require('../models/Reminder');
 // List all reminders
 router.get('/', async (req, res, next) => {
   try {
-
+    const reminders = await Reminder.find({
+      deleted: false
+    });
+    res.status(200).json(reminders);
+    return;
   } catch (error) {
     next(error);
   }
@@ -20,19 +24,26 @@ router.get('/date/:date', async (req, res, next) => {
   }
 });
 
-// Get reminder
-router.get('/:id', async (req, res, next) => {
-  try {
-
-  } catch (error) {
-    next(error);
-  }
-});
-
 // Create reminder
 router.post('/create', async (req, res, next) => {
-  try {
+  const {
+    description,
+    city,
+    color,
+    datetime
+  } = req.body;
 
+  try {
+    const newReminderData = {
+      description: description,
+      city: city,
+      color: color,
+      datetime: datetime
+    }
+
+    const newReminder = await Reminder.create(newReminderData);
+    res.status(200).json(newReminder);
+    return;
   } catch (error) {
     next(error);
   }
@@ -40,27 +51,74 @@ router.post('/create', async (req, res, next) => {
 
 // Update reminder
 router.put('/:id/update', async (req, res, next) => {
-  try {
+  const { id } = req.params;
+  const {
+    description,
+    city,
+    color,
+    datetime
+  } = req.body;
 
+  try {
+    const updateReminder = Reminder.findOneAndUpdate(id, {
+      $set: {
+        description: description,
+        city: city,
+        color: color,
+        datetime: datetime
+      }
+    }, {
+      new: true
+    });
+
+    res.status(200).json(updateReminder);
+    return;
   } catch (error) {
     next(error);
   }
 });
 
 // Delete reminder
-router.put('/:id/delete', async (req, res, next) => {
-  try {
+router.get('/:id/delete', async (req, res, next) => {
+  const { id } = req.params;
 
+  try {
+    const deleteReminder = Reminder.findOneAndUpdate(id, {
+      $set: {
+        deleted: true
+      }
+    }, {
+      new: true
+    });
+
+    res.status(200).json(deleteReminder);
+    return;
   } catch (error) {
     next(error);
   }
 });
 
 // Delete reminders per date
-router.put('/date/:date/delete', async (req, res, next) => {
+router.get('/date/:date/delete', async (req, res, next) => {
   try {
 
   } catch (error) {
     next(error);
   }
 });
+
+// Get reminder
+router.get('/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    const reminder = await Reminder.findById(id)
+
+    res.status(200).json(reminder);
+    return;
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;
