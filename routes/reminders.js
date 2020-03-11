@@ -30,7 +30,7 @@ router.post('/create', async (req, res, next) => {
       city: city,
       color: color,
       datetime: datetime
-    }
+    };
 
     const newReminder = await Reminder.create(newReminderData);
     res.status(200).json(newReminder);
@@ -69,7 +69,7 @@ router.put('/:id/update', async (req, res, next) => {
   } = req.body;
 
   try {
-    const updateReminder = Reminder.findOneAndUpdate(id, {
+    const updateReminder = await Reminder.findOneAndUpdate(id, {
       $set: {
         description: description,
         city: city,
@@ -79,7 +79,7 @@ router.put('/:id/update', async (req, res, next) => {
     }, {
       new: true
     });
-
+    console.log(updateReminder);
     res.status(200).json(updateReminder);
     return;
   } catch (error) {
@@ -92,7 +92,7 @@ router.get('/:id/delete', async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const deleteReminder = Reminder.findOneAndUpdate(id, {
+    const deleteReminder = await Reminder.findOneAndUpdate(id, {
       $set: {
         deleted: true
       }
@@ -112,7 +112,7 @@ router.get('/:id', async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const reminder = await Reminder.findById(id)
+    const reminder = await Reminder.findById(id);
 
     res.status(200).json(reminder);
     return;
