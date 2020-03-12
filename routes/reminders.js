@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Reminder = require('../models/Reminder');
+const { startOfDay, endOfDay, parseISO } = require('date-fns');
 
 // List all reminders
 router.get('/', async (req, res, next) => {
   try {
-    const reminders = await Reminder.find({
-      deleted: false
-    });
+    const reminders = await Reminder.find({ deleted: false });
+
     res.status(200).json(reminders);
     return;
   } catch (error) {
@@ -51,10 +51,19 @@ router.get('/date/delete/:date', async (req, res, next) => {
   }
 });
 
-// List all reminders in a date range
+// List all reminders in a specific date
 router.get('/date/:date', async (req, res, next) => {
   try {
+    const { date } = req.params;
+    const reminders = await Reminder.find({
+      datetime: {
+        $gte: startOfDay(parseISO(date)),
+        $lte: endOfDay(parseISO(date))
+      }
+    });
 
+    res.status(200).json(reminders);
+    return;
   } catch (error) {
     next(error);
   }
@@ -92,13 +101,10 @@ router.get('/delete/:id', async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    const deleteReminder = await Reminder.findOneAndUpdate(id, {
-      $set: {
-        deleted: true
-      }
-    }, {
-      new: true
-    });
+    const deleteReminder = await Reminder.findOne({ _id: id });
+    Object.assign(deleteReminder, { deleted: true });
+    await deleteReminder.save();
+
     res.status(200).json(deleteReminder);
     return;
   } catch (error) {
