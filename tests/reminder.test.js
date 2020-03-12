@@ -114,16 +114,21 @@ describe('Test API Endpoints', () => {
     done();
   });
 
-  it('Mark all reminders in a specific date as deleted', async done => {
-    done();
-  });
-
   // TODO: Come up with a better test for this
   it('List all reminders in a specific date', async done => {
     const date = '1989-12-20';
     const res = await request.get(`/api/date/${date}`);
 
     expect(res.statusCode).toBe(200);
+    done();
+  });
+
+  it('Mark all reminders in a specific date as deleted', async done => {
+    const date = '1989-12-20';
+    const res = await request.get(`/api/date/delete/${date}`);
+
+    expect(res.statusCode).toBe(200);
+    expect(res.ok).toBe(true);
     done();
   });
 })
