@@ -1,24 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+// FontAwesome Icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faChevronLeft,
+  faChevronRight,
+  faCalendarAlt,
+  faPlusCircle,
+  faTimesCircle
+} from '@fortawesome/free-solid-svg-icons';
+
+// Components
+import { Titlebar } from './components/Titlebar/Titlebar';
+import { Calendar } from './components/Calendar/Calendar';
+
+library.add(
+  faChevronLeft,
+  faChevronRight,
+  faCalendarAlt,
+  faPlusCircle,
+  faTimesCircle
+);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Titlebar />
+      <Calendar />
     </div>
   );
 }
