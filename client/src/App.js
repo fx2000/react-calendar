@@ -11,9 +11,8 @@ import {
   faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 
-// Components
-import { Titlebar } from './components/Titlebar/Titlebar';
-import { Calendar } from './components/Calendar/Calendar';
+// Pages
+import { Main } from './pages/Main/Main';
 
 library.add(
   faChevronLeft,
@@ -23,11 +22,10 @@ library.add(
   faTimesCircle
 );
 
-function App() {
+function App () {
   return (
     <div className="App">
-      <Titlebar />
-      <Calendar />
+      <Main />
     </div>
   );
 }
