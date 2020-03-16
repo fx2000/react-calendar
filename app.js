@@ -40,12 +40,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Allow frontend access to API (CORS)
-app.use(
-  cors({
-    credentials: true,
-    origin: [process.env.PUBLIC_DOMAIN]
-  })
-);
+app.use(cors());
 
 // Session middleware
 app.use(
