@@ -16,6 +16,9 @@ import {
   parseISO
 } from 'date-fns';
 
+// Components
+import { Reminder } from '../../components/Reminder/Reminder';
+
 export const Calendar = (props) => {
   // Reminder hooks
   const [nameState, setNameState] = useState(props);
@@ -74,13 +77,12 @@ export const Calendar = (props) => {
     let day = dateStart;
     let formattedDate = '';
 
-
     while (day <= dateEnd) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, 'd');
         const copyOfDay = day; // Avoid unsafe reference warning
 
-        // Filter and sort reminders from props
+        // Check if reminders have loaded from props, filter and sort
         if (nameState.reminders) {
           dailyReminders = nameState.reminders
             .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
@@ -100,18 +102,19 @@ export const Calendar = (props) => {
             onClick={() => setSelectedDate(copyOfDay)}
           >
             <span>{formattedDate}</span>
-            <div className='daily-reminder-list'
-              onClick={() => setSelectedDate(copyOfDay)}
-            >
-              {
+            <div className='daily-reminder-list' onClick={() => setSelectedDate(copyOfDay)}>
+              { // Get reminders for a specific date
                 nameState.reminders ? dailyReminders
                   .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
                   .map((reminder, index) =>
-                    <div
-                      key={index}
-                      style={{ backgroundColor: reminder.color }}
-                      className='daily-reminder'
-                    >{reminder.description}</div>
+                    <Reminder
+                      key = { index }
+                      id = { reminder._id }
+                      description = { reminder.description }
+                      color = { reminder.color }
+                      datetime = { reminder.datetime }
+                      city = { reminder.city }
+                    />
                 ) : null
               }
             </div>
