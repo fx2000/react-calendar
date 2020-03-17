@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Reminders API
-import remindersList from '../../lib/reminder-service';
+import remindersList from '../../lib/apiService';
 
 // Components
 import { Titlebar } from '../../components/Titlebar/Titlebar';
@@ -13,15 +13,8 @@ export const Main = () => {
 
   // Call reminders API
   useEffect(() => {
-    remindersList.list().then(
-      ({data}) => {
-        if (data.length > 0) {
-          setReminders(data);
-        }
-      }
-    ).catch(error => console.log(error))
+    remindersList.list().then(({data}) => setReminders(data))
   }, []);
-  console.log(reminders)
 
   return (
     <div>

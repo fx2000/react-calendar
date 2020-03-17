@@ -65,3 +65,9 @@
   font-weight: bolder;
   background-color: lightcoral;
 }
+
+.daily-reminder {
+  cursor: default;
+  margin: 3px;
+  border-radius: 7px;
+}

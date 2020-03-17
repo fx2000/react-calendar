@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   format,
@@ -11,11 +11,19 @@ import {
   endOfWeek,
   isSameMonth,
   isSameDay,
-  isToday
+  isToday,
+  compareAsc,
+  parseISO
 } from 'date-fns';
 
 export const Calendar = (props) => {
-  // Date handlers
+  // Reminder hooks
+  const [nameState, setNameState] = useState(props);
+  useEffect(() => {
+    setNameState(props)
+  }, [props]);
+
+  // Date hooks
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -60,15 +68,25 @@ export const Calendar = (props) => {
     const dateStart = startOfWeek(monthStart);
     const dateEnd = endOfWeek(monthEnd);
     const dates = [];
-
+    
+    let dailyReminders = [];
     let days = []
     let day = dateStart;
     let formattedDate = '';
+
 
     while (day <= dateEnd) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, 'd');
         const copyOfDay = day; // Avoid unsafe reference warning
+
+        // Filter and sort reminders from props
+        if (nameState.reminders) {
+          dailyReminders = nameState.reminders
+            .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
+            .filter(reminder => isSameDay(copyOfDay, parseISO(reminder.datetime))
+            );
+        }
 
         // Mark out of month dates as 'disabled' and currently selected date as 'selected'
         days.push(
@@ -79,9 +97,24 @@ export const Calendar = (props) => {
                 : ''}`
             }
             key={day}
-            onClick={ () => setSelectedDate(copyOfDay) }
+            onClick={() => setSelectedDate(copyOfDay)}
           >
             <span>{formattedDate}</span>
+            <div className='daily-reminder-list'
+              onClick={() => setSelectedDate(copyOfDay)}
+            >
+              {
+                nameState.reminders ? dailyReminders
+                  .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
+                  .map((reminder, index) =>
+                    <div
+                      key={index}
+                      style={{ backgroundColor: reminder.color }}
+                      className='daily-reminder'
+                    >{reminder.description}</div>
+                ) : null
+              }
+            </div>
           </div>
         );
         day = addDays(day, 1);

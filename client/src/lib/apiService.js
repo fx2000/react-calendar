@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Reminder API
-class reminderService {
+class apiService {
   constructor () {
     this.reminder = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL
@@ -9,8 +9,8 @@ class reminderService {
   }
 
   // List reminders
-  list = () => {
-    const response = this.reminder.get('/api/');
+  list = async () => {
+    const response = await this.reminder.get('/api/');
     return response;
   }
 
@@ -76,5 +76,5 @@ class reminderService {
   }
 }
 
-const axiosRequestFunctions = new reminderService();
+const axiosRequestFunctions = new apiService();
 export default axiosRequestFunctions;
