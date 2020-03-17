@@ -4,11 +4,9 @@ import React, { useState, useEffect } from 'react';
 import remindersList from '../../lib/apiService';
 
 // Components
-import { Titlebar } from '../../components/Titlebar/Titlebar';
 import { Calendar } from '../../components/Calendar/Calendar';
 
 export const Main = () => {
-  
   const [reminders, setReminders] = useState();
 
   // Call reminders API
@@ -17,9 +15,6 @@ export const Main = () => {
   }, []);
 
   return (
-    <div>
-      <Titlebar />
-      <Calendar reminders = { reminders } />
-    </div>
-  )
-}
+    <Calendar reminders = { reminders } />
+  );
+};
