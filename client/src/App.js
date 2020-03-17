@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch, Route } from "react-router-dom";
 import './App.css';
 
 // FontAwesome Icons
@@ -11,8 +12,12 @@ import {
   faTimesCircle
 } from '@fortawesome/free-solid-svg-icons';
 
+// Components
+import { Titlebar } from './components/Titlebar/Titlebar';
+
 // Pages
 import { Main } from './pages/Main/Main';
+import { Date } from './pages/Date/Date';
 
 library.add(
   faChevronLeft,
@@ -25,9 +30,13 @@ library.add(
 function App () {
   return (
     <div className="App">
-      <Main />
+      <Titlebar />
+      <Switch>
+        <Route exact path='/' component={Main} />
+        <Route exact path='/date/:date' component={Date} />
+      </Switch>
     </div>
   );
-}
+};
 
 export default App;
