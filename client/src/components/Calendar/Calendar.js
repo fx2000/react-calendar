@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  format,
   addMonths,
   subMonths,
   startOfWeek,
@@ -12,9 +11,12 @@ import {
   isSameMonth,
   isSameDay,
   isToday,
-  compareAsc,
-  parseISO
+  compareAsc
 } from 'date-fns';
+import {
+  format,
+  utcToZonedTime
+} from 'date-fns-tz';
 
 // Components
 import { Reminder } from '../../components/Reminder/Reminder';
@@ -85,8 +87,17 @@ export const Calendar = (props) => {
         // Check if reminders have loaded from props, filter and sort
         if (nameState.reminders) {
           dailyReminders = nameState.reminders
-            .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
-            .filter(reminder => isSameDay(copyOfDay, parseISO(reminder.datetime))
+            .sort(
+              (a, b) => compareAsc(
+                utcToZonedTime(a.datetime, 'America/Panama'),
+                utcToZonedTime(b.datetime, 'America/Panama')
+              )
+            )
+            .filter(
+              reminder => isSameDay(
+                copyOfDay,
+                utcToZonedTime(reminder.datetime, 'America/Panama')
+              )
             );
         }
 
@@ -99,20 +110,26 @@ export const Calendar = (props) => {
                 : ''}`
             }
             key={day}
-            onClick={() => setSelectedDate(copyOfDay)}
+            onClick={() => setSelectedDate(selectedDate)}
+            onDoubleClick={() => window.location.href = `/date/${format(selectedDate, 'yyyy-MM-dd')}`}
           >
             <span>{formattedDate}</span>
             <div className='daily-reminder-list' onClick={() => setSelectedDate(copyOfDay)}>
               { // Get reminders for a specific date
                 nameState.reminders ? dailyReminders
-                  .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
+                  .sort(
+                    (a, b) => compareAsc(
+                      utcToZonedTime(a.datetime, 'America/Panama'),
+                      utcToZonedTime(b.datetime, 'America/Panama')
+                    )
+                  )
                   .map((reminder, index) =>
                     <Reminder
                       key = { index }
                       id = { reminder._id }
                       description = { reminder.description }
                       color = { reminder.color }
-                      datetime = { reminder.datetime }
+                      datetime={ utcToZonedTime(reminder.datetime, 'America/Panama') }
                       city = { reminder.city }
                     />
                 ) : null

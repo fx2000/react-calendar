@@ -18,7 +18,10 @@ export const Date = (props) => {
   return (
     <div>
       <div>{date}</div>
-      <Schedule reminders = { reminders } />
+      <Schedule
+        reminders = { reminders }
+        date = { date }
+      />
     </div>
   );
 };
