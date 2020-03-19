@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
   compareAsc,
-  parseISO,
   parse,
   isSameHour,
-  format
 } from 'date-fns';
+import {
+  format,
+  utcToZonedTime
+} from 'date-fns-tz';
 
 // Components
 import { Reminder } from '../../components/Reminder/Reminder';
@@ -17,33 +19,38 @@ export const Schedule = (props) => {
     setNameState(props)
   }, [props]);
 
-  const fullDay = [];
-  let hour = ''
-  let dailyReminders = [];
+  console.log(nameState.reminders)
 
-  for (let i = 0; i <= 24; i++) {
-    // Check if reminders have loaded from props, filter and sort
-    if (nameState.reminders) {
-      dailyReminders = nameState.reminders
-        .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
-        .filter(reminder => isSameHour(parse(i, 'H', parseISO(props.date)), parseISO(reminder.datetime))
-        );
-    }
-    hour = format(parse(i, 'H', parseISO(props.date)), 'MMMMMM yyyy');
+  const fullDay = [];
+  let parsedDate = ''
+
+  for (let i = 0; i < 24; i++) {
+    parsedDate = parse(i, 'H', props.date);
     fullDay.push(
       <div key={i}>
-        <div>{hour}</div>
+        <div>{format(parsedDate, 'HH:mm')}</div>
         <div>
           { // Get reminders for a specific hour
-            (nameState.reminders) ? dailyReminders
-              .sort((a, b) => compareAsc(parseISO(a.datetime), parseISO(b.datetime)))
+            (nameState.reminders) ? nameState.reminders
+              .sort(
+                (a, b) => compareAsc(
+                  utcToZonedTime(a.datetime, 'America/Panama'),
+                  utcToZonedTime(b.datetime, 'America/Panama')
+                )
+              )
+              .filter(
+                (reminder) => isSameHour(
+                  parsedDate,
+                  utcToZonedTime(reminder.datetime, 'America/Panama')
+                )
+              )
               .map((reminder, index) =>
                 <Reminder
                   key={index}
                   id={reminder._id}
                   description={reminder.description}
                   color={reminder.color}
-                  datetime={reminder.datetime}
+                  datetime={utcToZonedTime(reminder.datetime, 'America/Panama')}
                   city={reminder.city}
                 />
               ) : null

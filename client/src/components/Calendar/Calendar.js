@@ -104,13 +104,13 @@ export const Calendar = (props) => {
         // Mark out of month dates as 'disabled' and currently selected date as 'selected'
         days.push(
           <div className={
-              `days ${!isSameMonth(day, monthStart) ? 'disabled'
-                : isSameDay(day, selectedDate) ? 'selected'
-                : isToday(day) ? 'today'
+              `days${!isSameMonth(day, monthStart) ? ' disabled'
+                : isSameDay(day, selectedDate) ? ' selected'
+                : isToday(day) ? ' today'
                 : ''}`
             }
             key={day}
-            onClick={() => setSelectedDate(selectedDate)}
+            onClick={() => setSelectedDate(copyOfDay)}
             onDoubleClick={() => window.location.href = `/date/${format(selectedDate, 'yyyy-MM-dd')}`}
           >
             <span>{formattedDate}</span>

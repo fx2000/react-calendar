@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import {
+  zonedTimeToUtc
+} from 'date-fns-tz';
 
 // Reminders API
 import remindersList from '../../lib/apiService';
@@ -20,7 +23,7 @@ export const Date = (props) => {
       <div>{date}</div>
       <Schedule
         reminders = { reminders }
-        date = { date }
+        date={ zonedTimeToUtc(date, 'America/Panama') }
       />
     </div>
   );
