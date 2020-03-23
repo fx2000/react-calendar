@@ -10,7 +10,7 @@ import {
 } from 'date-fns-tz';
 
 // Components
-import { Reminder } from '../../components/Reminder/Reminder';
+import { ReminderTable } from '../../components/ReminderTable/ReminderTable';
 
 export const Schedule = (props) => {
   // Reminder hooks
@@ -27,40 +27,47 @@ export const Schedule = (props) => {
   for (let i = 0; i < 24; i++) {
     parsedDate = parse(i, 'H', props.date);
     fullDay.push(
-      <div key={i}>
+      <div key={i} className='date-schedule'>
         <div>{format(parsedDate, 'HH:mm')}</div>
-        <div>
-          { // Get reminders for a specific hour
-            (nameState.reminders) ? nameState.reminders
-              .sort(
-                (a, b) => compareAsc(
-                  utcToZonedTime(a.datetime, 'America/Panama'),
-                  utcToZonedTime(b.datetime, 'America/Panama')
-                )
+        { // Get reminders for a specific hour
+          (nameState.reminders) ? nameState.reminders
+            .sort(
+              (a, b) => compareAsc(
+                utcToZonedTime(a.datetime, 'America/Panama'),
+                utcToZonedTime(b.datetime, 'America/Panama')
               )
-              .filter(
-                (reminder) => isSameHour(
-                  parsedDate,
-                  utcToZonedTime(reminder.datetime, 'America/Panama')
-                )
+            )
+            .filter(
+              (reminder) => isSameHour(
+                parsedDate,
+                utcToZonedTime(reminder.datetime, 'America/Panama')
               )
-              .map((reminder, index) =>
-                <Reminder
-                  key={index}
-                  id={reminder._id}
-                  description={reminder.description}
-                  color={reminder.color}
-                  datetime={utcToZonedTime(reminder.datetime, 'America/Panama')}
-                  city={reminder.city}
-                />
-              ) : null
-          }
-        </div>
+            )
+            .map((reminder, index) =>
+              <ReminderTable
+                key={index}
+                id={reminder._id}
+                description={reminder.description}
+                color={reminder.color}
+                datetime={utcToZonedTime(reminder.datetime, 'America/Panama')}
+                city={reminder.city}
+              />
+            ) : null
+        }
       </div>
     );
   }
 
   return (
-    <div>{fullDay}</div>
+    <section className='full-day'>
+      <header>
+        <div>Time</div>
+        <div>City</div>
+        <div>Reminder</div>
+      </header>
+      <body>
+        {fullDay}
+      </body> 
+    </section>
   )
 }

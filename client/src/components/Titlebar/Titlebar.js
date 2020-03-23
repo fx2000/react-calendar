@@ -13,14 +13,14 @@ import {
 export const Titlebar = () => {
   return (
     <Navbar bg="dark" expand="lg" variant="dark">
-      <Navbar.Brand href="#home">
+      <Navbar.Brand href="/">
         <FontAwesomeIcon icon='calendar-alt' />
         {' '}Jobsity Calendar
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="#link">Add new reminder</Nav.Link>
+          <Nav.Link href="/add">Add new reminder</Nav.Link>
         </Nav>
         <Form inline>
           <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -28,5 +28,5 @@ export const Titlebar = () => {
         </Form>
       </Navbar.Collapse>
     </Navbar>
-  )
-}
+  );
+};

@@ -18,6 +18,7 @@ import { Titlebar } from './components/Titlebar/Titlebar';
 // Pages
 import { Main } from './pages/Main/Main';
 import { Date } from './pages/Date/Date';
+import { Add } from './pages/Add/Add';
 
 library.add(
   faChevronLeft,
@@ -33,6 +34,7 @@ function App () {
       <Titlebar />
       <Switch>
         <Route exact path='/' component={Main} />
+        <Route exact path='/add' component={Add} />
         <Route exact path='/date/:date' component={Date} />
       </Switch>
     </div>
