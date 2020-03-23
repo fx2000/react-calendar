@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { format, zonedTimeToUtc } from 'date-fns-tz';
 
 // Reminders API
-import remindersList from '../../lib/apiService';
+import remindersApi from '../../lib/apiService';
 
 // Components
 import { Schedule } from '../../components/Schedule/Schedule';
@@ -13,7 +13,7 @@ export const Date = (props) => {
 
   // Call reminders API
   useEffect(() => {
-    remindersList.listDate(date).then(({ data }) => setReminders(data))
+    remindersApi.listDate(date).then(({ data }) => setReminders(data))
   }, [date]);
   
   return (

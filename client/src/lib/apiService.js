@@ -41,7 +41,8 @@ class apiService {
         color,
         datetime
       });
-    return response;
+    console.log(reminder)
+      return response;
   }
 
   // Update Reminder

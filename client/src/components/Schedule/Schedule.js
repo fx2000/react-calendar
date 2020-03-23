@@ -10,7 +10,7 @@ import {
 } from 'date-fns-tz';
 
 // Components
-import { ReminderTable } from '../../components/ReminderTable/ReminderTable';
+import { Reminder } from '../../components/Reminder/Reminder';
 
 export const Schedule = (props) => {
   // Reminder hooks
@@ -44,7 +44,7 @@ export const Schedule = (props) => {
               )
             )
             .map((reminder, index) =>
-              <ReminderTable
+              <Reminder
                 key={index}
                 id={reminder._id}
                 description={reminder.description}
