@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const ObjectId = Schema.Types.ObjectId;
 
 const reminderSchema = new Schema({
   description: {
@@ -14,7 +13,6 @@ const reminderSchema = new Schema({
   },
   color: {
     type: String,
-    validate: /^((0x){0,1}|#{0,1})([0-9A-F]{8}|[0-9A-F]{6})$/,
     default: '#3399FF'
   },
   datetime: {
