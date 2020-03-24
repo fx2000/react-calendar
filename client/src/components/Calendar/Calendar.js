@@ -79,10 +79,16 @@ export const Calendar = (props) => {
     let day = dateStart;
     let formattedDate = '';
 
+    const dayFilter = (day) => {
+      return (reminder) => isSameDay(
+        day,
+        utcToZonedTime(reminder.datetime, 'America/Panama')
+      )
+    }
+
     while (day <= dateEnd) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, 'd');
-        const copyOfDay = day; // Avoid unsafe reference warning
 
         // Check if reminders have loaded from props, filter and sort
         if (nameState.reminders) {
@@ -93,15 +99,11 @@ export const Calendar = (props) => {
                 utcToZonedTime(b.datetime, 'America/Panama')
               )
             )
-            .filter(
-              reminder => isSameDay(
-                copyOfDay,
-                utcToZonedTime(reminder.datetime, 'America/Panama')
-              )
-            );
+            .filter(dayFilter(day));
         }
 
         // Mark out of month dates as 'disabled' and currently selected date as 'selected'
+        const copyOfDay = day;
         days.push(
           <div className={
               `days${!isSameMonth(day, monthStart) ? ' disabled'

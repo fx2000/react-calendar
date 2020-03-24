@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useInput } from '../../hooks/input-hook';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // Reminders API
 import remindersApi from '../../lib/apiService';
 
 export const Add = () => {
+  const [startDate, setStartDate] = useState(new Date());
   const {
     value: description,
     bind: bindDescription,
@@ -19,29 +22,21 @@ export const Add = () => {
     value: color,
     bind: bindColor,
     reset: resetColor
-  } = useInput('');
-  const {
-    value: datetime,
-    bind: bindDatetime,
-    reset: resetDatetime
-  } = useInput('');
+  } = useInput('#99FFFF');  
 
-  
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     const newReminder = {
       description: description,
       city: city,
       color: color,
-      datetime: new Date()
+      datetime: startDate
     }
-    await remindersApi.create(newReminder);
-
-    resetDescription();
-    resetCity();
-    resetColor();
-    resetDatetime();
+    console.log(newReminder)
+    remindersApi.create(newReminder);
+    resetColor('#99FFFF')
+    resetDescription('');
+    resetCity('');
   }
 
   return (
@@ -54,7 +49,15 @@ export const Add = () => {
         <label htmlFor='color'>Color: </label>
         <input type='color' id='color' name='color' {...bindColor}></input>
         <label htmlFor='datetime'>Date & Time: </label>
-        <input type='text' id='datetime' name='datetime' {...bindDatetime}></input>
+        <DatePicker
+          selected={startDate}
+          onChange={date => setStartDate(date)}
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={60}
+          timeCaption="Time"
+          dateFormat="MMMM d, yyyy h:mm aa"
+        />
         <button type='submit'>Submit</button>
       </form>
     </div>

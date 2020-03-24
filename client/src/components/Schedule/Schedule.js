@@ -10,7 +10,7 @@ import {
 } from 'date-fns-tz';
 
 // Components
-import { Reminder } from '../../components/Reminder/Reminder';
+import { ReminderDetails } from '../../components/ReminderDetails/ReminderDetails';
 
 export const Schedule = (props) => {
   // Reminder hooks
@@ -19,10 +19,15 @@ export const Schedule = (props) => {
     setNameState(props)
   }, [props]);
 
-  console.log(nameState.reminders)
-
   const fullDay = [];
   let parsedDate = ''
+
+  const dateFilter = (parsedDate) => {
+    return (reminder) => isSameHour(
+      parsedDate,
+      utcToZonedTime(reminder.datetime, 'America/Panama')
+    )
+  }
 
   for (let i = 0; i < 24; i++) {
     parsedDate = parse(i, 'H', props.date);
@@ -37,14 +42,9 @@ export const Schedule = (props) => {
                 utcToZonedTime(b.datetime, 'America/Panama')
               )
             )
-            .filter(
-              (reminder) => isSameHour(
-                parsedDate,
-                utcToZonedTime(reminder.datetime, 'America/Panama')
-              )
-            )
+            .filter(dateFilter(parsedDate))
             .map((reminder, index) =>
-              <Reminder
+              <ReminderDetails
                 key={index}
                 id={reminder._id}
                 description={reminder.description}
@@ -59,15 +59,15 @@ export const Schedule = (props) => {
   }
 
   return (
-    <section className='full-day'>
-      <header>
+    <div className='full-day'>
+      <div>
         <div>Time</div>
         <div>City</div>
         <div>Reminder</div>
-      </header>
-      <body>
+      </div>
+      <div>
         {fullDay}
-      </body> 
-    </section>
+      </div> 
+    </div>
   )
 }
