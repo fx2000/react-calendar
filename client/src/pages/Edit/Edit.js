@@ -8,7 +8,7 @@ import remindersApi from '../../lib/APIservice';
 
 export const Edit = (props) => {
   const { id } = props.match.params;
-  const [reminder, setReminder] = useState();
+  const [reminder, setReminder] = useState({});
   const [startDate, setStartDate] = useState(reminder ? reminder.datetime : new Date());
 
   // Call reminders API
@@ -20,15 +20,15 @@ export const Edit = (props) => {
   const {
     value: description,
     bind: bindDescription
-  } = useInput(reminder ? reminder.description : '');
+  } = useInput(reminder.description);
   const {
     value: city,
     bind: bindCity
-  } = useInput(reminder ? reminder.city : '');
+  } = useInput(reminder && reminder.city);
   const {
     value: color,
     bind: bindColor
-  } = useInput(reminder ? reminder.color : '#000000');
+  } = useInput(reminder && reminder.color);
 
   const handleSubmit = (event) => {
     event.preventDefault();
