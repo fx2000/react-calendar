@@ -25,7 +25,7 @@ export const Calendar = (props) => {
   // Reminder hooks
   const [nameState, setNameState] = useState(props);
   useEffect(() => {
-    setNameState(props)
+    setNameState(props);
   }, [props]);
 
   // Date hooks
@@ -73,9 +73,9 @@ export const Calendar = (props) => {
     const dateStart = startOfWeek(monthStart);
     const dateEnd = endOfWeek(monthEnd);
     const dates = [];
-    
+
     let dailyReminders = [];
-    let days = []
+    let days = [];
     let day = dateStart;
     let formattedDate = '';
 
@@ -83,8 +83,12 @@ export const Calendar = (props) => {
       return (reminder) => isSameDay(
         day,
         utcToZonedTime(reminder.datetime, 'America/Panama')
-      )
-    }
+      );
+    };
+
+    const goToDate = (date) => {
+      window.location.href = `/date/${format(date, 'yyyy-MM-dd')}`;
+    };
 
     while (day <= dateEnd) {
       for (let i = 0; i < 7; i++) {
@@ -110,13 +114,13 @@ export const Calendar = (props) => {
                 : isSameDay(day, selectedDate) ? ' selected'
                 : isToday(day) ? ' today'
                 : ''}`
-            }
-            key={day}
-            onClick={() => setSelectedDate(copyOfDay)}
-            onDoubleClick={() => window.location.href = `/date/${format(selectedDate, 'yyyy-MM-dd')}`}
+          }
+          key={day}
+          onClick={() => setSelectedDate(copyOfDay)}
+          onDoubleClick={() => goToDate(selectedDate)}
           >
             <span>{formattedDate}</span>
-            <div className='daily-reminder-list' onClick={() => setSelectedDate(copyOfDay)}>
+            <div className="daily-reminder-list" onClick={() => setSelectedDate(copyOfDay)}>
               { // Get reminders for a specific date
                 nameState.reminders ? dailyReminders
                   .sort(
@@ -128,13 +132,10 @@ export const Calendar = (props) => {
                   .map((reminder, index) =>
                     <Reminder
                       key = { index }
-                      id = { reminder._id }
                       description = { reminder.description }
                       color = { reminder.color }
-                      datetime={ utcToZonedTime(reminder.datetime, 'America/Panama') }
-                      city = { reminder.city }
                     />
-                ) : null
+                  ) : null
               }
             </div>
           </div>
@@ -142,17 +143,17 @@ export const Calendar = (props) => {
         day = addDays(day, 1);
       }
       dates.push(
-        <div className='days-grid' key={day}>{days}</div>
+        <div className="days-grid" key={day}>{days}</div>
       );
       days = []; // Clear days array
     }
     return (
-      <div className='dates'>{dates}</div>
+      <div className="dates">{dates}</div>
     );
   };
 
   return (
-    <div className='calendar'>
+    <div className="calendar">
       {controls()}
       {weekdays()}
       {dates()}

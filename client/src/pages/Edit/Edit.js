@@ -1,43 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useInput } from '../../hooks/input-hook';
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 // Reminders API
 import remindersApi from '../../lib/APIservice';
 
-export const Add = () => {
-  const [startDate, setStartDate] = useState(new Date());
+export const Edit = (props) => {
+  const { id } = props.match.params;
+  const [reminder, setReminder] = useState();
+  const [startDate, setStartDate] = useState(reminder ? reminder.datetime : new Date());
+
+  // Call reminders API
+  useEffect(() => {
+    remindersApi.details(id).then(({ data }) => setReminder(data));
+  }, [id]);
+  console.log(reminder);
 
   const {
     value: description,
-    bind: bindDescription,
-    reset: resetDescription
-  } = useInput('');
+    bind: bindDescription
+  } = useInput(reminder ? reminder.description : '');
   const {
     value: city,
-    bind: bindCity,
-    reset: resetCity
-  } = useInput('');
+    bind: bindCity
+  } = useInput(reminder ? reminder.city : '');
   const {
     value: color,
-    bind: bindColor,
-    reset: resetColor
-  } = useInput('#99FFFF');
+    bind: bindColor
+  } = useInput(reminder ? reminder.color : '#000000');
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newReminder = {
+    const updatedReminder = {
+      id: id,
       description: description,
       city: city,
       color: color,
       datetime: startDate
     };
-    console.log(newReminder);
-    remindersApi.create(newReminder);
-    resetColor('#99FFFF');
-    resetDescription('');
-    resetCity('');
+    console.log(updatedReminder);
+    remindersApi.update(updatedReminder).then(window.location.href = '/');
   };
 
   return (
@@ -63,4 +66,8 @@ export const Add = () => {
       </form>
     </div>
   );
+};
+
+Edit.propTypes = {
+  match: PropTypes.object.isRequired
 };

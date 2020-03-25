@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { format, zonedTimeToUtc } from 'date-fns-tz';
+import PropTypes from 'prop-types';
 
 // Reminders API
-import remindersApi from '../../lib/apiService';
+import remindersApi from '../../lib/APIservice';
 
 // Components
 import { Schedule } from '../../components/Schedule/Schedule';
@@ -13,16 +14,34 @@ export const Date = (props) => {
 
   // Call reminders API
   useEffect(() => {
-    remindersApi.listDate(date).then(({ data }) => setReminders(data))
+    remindersApi.listDate(date).then(({ data }) => setReminders(data));
   }, [date]);
-  
+
+  const deleteReminder = (id) => {
+    remindersApi.delete(id).then(
+      remindersApi.listDate(date).then(({ data }) => setReminders(data))
+    );
+  };
+
+  const deleteByDate = (date) => {
+    remindersApi.deleteDate(date).then(
+      remindersApi.listDate(date).then(({ data }) => setReminders(data))
+    );
+  };
+
   return (
     <div className='date-schedule'>
       <div>{format(zonedTimeToUtc(date, 'America/Panama'), 'EEEE MMMM do, yyyy')}</div>
+      <button onClick={() => { deleteByDate(date); }}>Delete All</button>
       <Schedule
         reminders = { reminders }
-        date={ zonedTimeToUtc(date, 'America/Panama') }
+        date = { zonedTimeToUtc(date, 'America/Panama') }
+        deleteReminder = { deleteReminder }
       />
     </div>
   );
+};
+
+Date.propTypes = {
+  match: PropTypes.object.isRequired
 };

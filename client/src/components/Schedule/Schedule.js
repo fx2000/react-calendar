@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   compareAsc,
   parse,
-  isSameHour,
+  isSameHour
 } from 'date-fns';
 import {
   format,
   utcToZonedTime
 } from 'date-fns-tz';
+import PropTypes from 'prop-types';
 
 // Components
 import { ReminderDetails } from '../../components/ReminderDetails/ReminderDetails';
@@ -16,18 +17,18 @@ export const Schedule = (props) => {
   // Reminder hooks
   const [nameState, setNameState] = useState(props);
   useEffect(() => {
-    setNameState(props)
+    setNameState(props);
   }, [props]);
 
   const fullDay = [];
-  let parsedDate = ''
+  let parsedDate = '';
 
   const dateFilter = (parsedDate) => {
     return (reminder) => isSameHour(
       parsedDate,
       utcToZonedTime(reminder.datetime, 'America/Panama')
-    )
-  }
+    );
+  };
 
   for (let i = 0; i < 24; i++) {
     parsedDate = parse(i, 'H', props.date);
@@ -51,6 +52,7 @@ export const Schedule = (props) => {
                 color={reminder.color}
                 datetime={utcToZonedTime(reminder.datetime, 'America/Panama')}
                 city={reminder.city}
+                deleteReminder={props.deleteReminder}
               />
             ) : null
         }
@@ -67,7 +69,12 @@ export const Schedule = (props) => {
       </div>
       <div>
         {fullDay}
-      </div> 
+      </div>
     </div>
-  )
-}
+  );
+};
+
+Schedule.propTypes = {
+  date: PropTypes.object.isRequired,
+  deleteReminder: PropTypes.func.isRequired
+};

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Reminders API
-import remindersApi from '../../lib/apiService';
+import remindersApi from '../../lib/APIservice';
 
 // Components
 import { Calendar } from '../../components/Calendar/Calendar';
@@ -11,7 +11,7 @@ export const Main = () => {
 
   // Call reminders API
   useEffect(() => {
-    remindersApi.list().then(({data}) => setReminders(data))
+    remindersApi.list().then(({ data }) => setReminders(data));
   }, []);
 
   return (

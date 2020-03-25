@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Reminder API
-class apiService {
+class APIservice {
   constructor () {
     this.reminder = axios.create({
       baseURL: process.env.REACT_APP_BASE_URL
@@ -41,8 +41,7 @@ class apiService {
         color,
         datetime
       });
-    console.log(reminder)
-      return response;
+    return response;
   }
 
   // Update Reminder
@@ -77,5 +76,5 @@ class apiService {
   }
 }
 
-const axiosRequestFunctions = new apiService();
+const axiosRequestFunctions = new APIservice();
 export default axiosRequestFunctions;
