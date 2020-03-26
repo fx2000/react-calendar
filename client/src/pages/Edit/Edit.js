@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useInput } from '../../hooks/input-hook';
+import { useForm } from 'react-hook-form';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { parseISO } from 'date-fns';
@@ -11,6 +11,9 @@ export const Edit = (props) => {
   const { id } = props.match.params;
   const [reminder, setReminder] = useState({});
   const [startDate, setStartDate] = useState(new Date());
+  const { register, handleSubmit, errors } = useForm();
+
+  console.log(reminder.color);
 
   // Call reminders API
   useEffect(() => {
@@ -22,26 +25,12 @@ export const Edit = (props) => {
     );
   }, [id]);
 
-  const {
-    value: description,
-    bind: bindDescription
-  } = useInput(reminder.description || '');
-  const {
-    value: city,
-    bind: bindCity
-  } = useInput(reminder.city || '');
-  const {
-    value: color,
-    bind: bindColor
-  } = useInput(reminder.color || '#000000');
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const onSubmit = data => {
     const updatedReminder = {
       id: id,
-      description: description,
-      city: city,
-      color: color,
+      description: data.description,
+      city: data.city,
+      color: data.color,
       datetime: startDate
     };
     remindersApi.update(updatedReminder).then(window.location.href = '/');
@@ -49,14 +38,14 @@ export const Edit = (props) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='description'>Reminder: </label>
-        <input {...bindDescription} type='text' id='description' name='description'></input>
-        <label htmlFor='city'>City: </label>
-        <input {...bindCity} type='text' id='city' name='city'></input>
-        <label htmlFor='color'>Color: </label>
-        <input {...bindColor} type='color' id='color' name='color'></input>
-        <label htmlFor='datetime'>Date & Time: </label>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label htmlFor="description">Reminder: </label>
+        <input type="text" id="description" name="description" defaultValue={reminder.description || ''} ref={register({ required: true })}/>
+        <label htmlFor="city">City: </label>
+        <input type="text" id="city" name="city" defaultValue={reminder.city || ''} ref={register({ required: true })}/>
+        <label htmlFor="color">Color: </label>
+        <input type="color" id="color" name="color" defaultValue={reminder.color || '#FFCC99'} ref={register({ required: true })}/>
+        <label htmlFor="datetime">Date & Time: </label>
         <DatePicker
           selected={startDate}
           onChange={date => setStartDate(date)}
@@ -66,6 +55,7 @@ export const Edit = (props) => {
           timeCaption="Time"
           dateFormat="MMMM d, yyyy h:mm aa"
         />
+        {errors.exampleRequired && <span>This field is required</span>}
         <button type='submit'>Submit</button>
       </form>
     </div>
