@@ -25,11 +25,29 @@ export const Add = () => {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="description">Reminder: </label>
-        <input type="text" id="description" name="description" defaultValue="" ref={register({ required: true })}/>
+        <input
+          type="text"
+          id="description"
+          name="description"
+          defaultValue=""
+          ref={register({ required: true })}
+        />
         <label htmlFor="city">City: </label>
-        <input type="text" id="city" name="city" defaultValue="" ref={register({ required: true })}/>
+        <input
+          type="text"
+          id="city"
+          name="city"
+          defaultValue=""
+          ref={register({ required: true })}
+        />
         <label htmlFor="color">Color: </label>
-        <input type="color" id="color" name="color" defaultValue="#FFCC99" ref={register({ required: true })}/>
+        <input
+          type="color"
+          id="color"
+          name="color"
+          defaultValue="#FFCC99"
+          ref={register({ required: true })}
+        />
         <label htmlFor="datetime">Date & Time: </label>
         <DatePicker
           selected={startDate}
@@ -40,7 +58,8 @@ export const Add = () => {
           timeCaption="Time"
           dateFormat="MMMM d, yyyy h:mm aa"
         />
-        {errors.exampleRequired && <span>This field is required</span>}
+        {errors.description && <span>You must add a description</span>}
+        {errors.city && <span>You must add a city</span>}
         <button type='submit'>Submit</button>
       </form>
     </div>
