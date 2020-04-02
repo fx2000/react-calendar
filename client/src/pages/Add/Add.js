@@ -45,7 +45,7 @@ export const Add = () => {
           type="color"
           id="color"
           name="color"
-          defaultValue="#FFCC99"
+          defaultValue="#66CCFF"
           ref={register({ required: true })}
         />
         <label htmlFor="datetime">Date & Time: </label>

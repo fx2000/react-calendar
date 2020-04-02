@@ -13,6 +13,8 @@ export const Edit = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const { register, handleSubmit, errors } = useForm();
 
+  console.log(reminder);
+
   // Call reminders API
   useEffect(() => {
     remindersApi.details(id).then(
@@ -54,13 +56,15 @@ export const Edit = (props) => {
           ref={register({ required: true })}
         />
         <label htmlFor="color">Color: </label>
-        <input
-          type="color"
-          id="color"
-          name="color"
-          defaultValue={reminder.color || '#FFCC99'}
-          ref={register({ required: true })}
-        />
+        { reminder.color &&
+          <input
+            type="color"
+            id="color"
+            name="color"
+            defaultValue={reminder.color}
+            ref={register({ required: true })}
+          />
+        }
         <label htmlFor="datetime">Date & Time: </label>
         <DatePicker
           selected={startDate}
