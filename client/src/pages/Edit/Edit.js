@@ -13,8 +13,6 @@ export const Edit = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const { register, handleSubmit, errors } = useForm();
 
-  console.log(reminder.color);
-
   // Call reminders API
   useEffect(() => {
     remindersApi.details(id).then(
@@ -73,7 +71,8 @@ export const Edit = (props) => {
           timeCaption="Time"
           dateFormat="MMMM d, yyyy h:mm aa"
         />
-        {errors.description && <span>This field is required</span>}
+        {errors.description && <span>You must add a description</span>}
+        {errors.city && <span>You must add a city</span>}
         <button type='submit'>Submit</button>
       </form>
     </div>
