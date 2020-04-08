@@ -110,7 +110,7 @@ export const Calendar = (props) => {
         const copyOfDay = day;
         days.push(
           <div className={
-              `days${!isSameMonth(day, monthStart) ? ' disabled'
+              `scroll days${!isSameMonth(day, monthStart) ? ' disabled'
                 : isSameDay(day, selectedDate) ? ' selected'
                 : isToday(day) ? ' today'
                 : ''}`
