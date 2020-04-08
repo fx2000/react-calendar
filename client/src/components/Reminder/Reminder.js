@@ -5,7 +5,7 @@ export const Reminder = (props) => {
   return (
     <div
       style={{ backgroundColor: props.color }}
-      className="daily-reminder"
+      className="reminder"
     >{props.description}</div>
   );
 };

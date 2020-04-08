@@ -39,7 +39,7 @@
 
 .days-grid {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, 12vw);
   grid-auto-columns: 100px;
 }
 
@@ -70,4 +70,13 @@
   cursor: default;
   margin: 3px;
   border-radius: 7px;
+}
+
+.reminder {
+  cursor: default;
+  margin: 3px;
+  border-radius: 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
