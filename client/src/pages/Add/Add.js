@@ -22,7 +22,8 @@ export const Add = () => {
   };
 
   return (
-    <div>
+    <div className="add-form">
+      <h1>Add new reminder</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="description">Reminder: </label>
         <input
@@ -48,7 +49,7 @@ export const Add = () => {
           defaultValue="#FFCC99"
           ref={register({ required: true })}
         />
-        <label htmlFor="datetime">Date & Time: </label>
+        <label htmlFor="datetime">Date & Time: </label><br/>
         <DatePicker
           selected={startDate}
           onChange={date => setStartDate(date)}
@@ -57,9 +58,9 @@ export const Add = () => {
           timeIntervals={60}
           timeCaption="Time"
           dateFormat="MMMM d, yyyy h:mm aa"
-        />
-        {errors.description && <span>You must add a description</span>}
-        {errors.city && <span>You must add a city</span>}
+        /><br/>
+        {errors.description && <span className="error">You must add a description</span>}<br/>
+        {errors.city && <span className="error">You must add a city</span>}<br />
         <button type='submit'>Submit</button>
       </form>
     </div>
