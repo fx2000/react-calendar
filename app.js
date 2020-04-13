@@ -37,19 +37,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-// Static file declaration
 app.use(express.static(path.join(__dirname, 'client/build')));
-// Production mode
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
-  app.get('*', (req, res) => {
-    res.sendfile(path.join(__dirname, 'client/build/index.html'));
-  });
-};
-// Build mode
+// Anything that doesn't match the above, send back index.html
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/public/index.html'));
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
 });
 
 // Allow frontend access to API (CORS)
