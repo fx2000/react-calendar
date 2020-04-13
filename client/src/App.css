@@ -59,7 +59,7 @@
 }
 
 .today {
-  background-color: lightsteelblue;
+  background-color: #2ebc99;
 }
 
 .disabled {
@@ -68,7 +68,7 @@
 
 .selected {
   font-weight: bolder;
-  background-color: lightcoral;
+  background-color: #00ffbf;
 }
 
 .daily-reminder {
@@ -200,5 +200,45 @@
 .error {
   color: red;
   margin: 5px;
+  padding: 5px;
+}
+
+.schedule-titlebar {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.date-schedule {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin: 0 8% 0 8%;
+}
+
+.full-day-titlebar {
+  display: grid;
+  grid-template-columns: 10% 10% 70% 10%;
+  background-color: #282c34;
+  font-size: calc(10px + 1vmin);
+  color: white;
+  padding: 5px;
+}
+
+.full-day-time {
+  display: grid;
+  grid-template-columns: 10% 90%;
+}
+
+.reminder-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.reminder-details {
+  display: grid;
+  grid-template-columns: 15% 70% 15%;
+  margin: 1px;
+  border-radius: 3px;
   padding: 5px;
 }

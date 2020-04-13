@@ -8,6 +8,11 @@ import remindersApi from '../../lib/APIservice';
 // Components
 import { Schedule } from '../../components/Schedule/Schedule';
 
+// Bootstrap components
+import {
+  Button
+} from 'react-bootstrap';
+
 export const Date = (props) => {
   const { date } = props.match.params;
   const [reminders, setReminders] = useState();
@@ -30,9 +35,11 @@ export const Date = (props) => {
   };
 
   return (
-    <div className='date-schedule'>
-      <div>{format(zonedTimeToUtc(date, 'America/Panama'), 'EEEE MMMM do, yyyy')}</div>
-      <button onClick={() => { deleteByDate(date); }}>Delete All</button>
+    <div className="date-schedule">
+      <div className="schedule-titlebar">
+        {format(zonedTimeToUtc(date, 'America/Panama'), 'EEEE MMMM do, yyyy')}
+        <Button variant="danger" onClick={() => { deleteByDate(date); }}>Delete All</Button>
+      </div>
       <Schedule
         reminders = { reminders }
         date = { zonedTimeToUtc(date, 'America/Panama') }

@@ -33,41 +33,44 @@ export const Schedule = (props) => {
   for (let i = 0; i < 24; i++) {
     parsedDate = parse(i, 'H', props.date);
     fullDay.push(
-      <div key={i} className='date-schedule'>
+      <div key={i} className='full-day-time'>
         <div>{format(parsedDate, 'HH:mm')}</div>
-        { // Get reminders for a specific hour
-          (nameState.reminders) ? nameState.reminders
-            .sort(
-              (a, b) => compareAsc(
-                utcToZonedTime(a.datetime, 'America/Panama'),
-                utcToZonedTime(b.datetime, 'America/Panama')
+        <div className="reminder-list">
+          { // Get reminders for a specific hour
+            (nameState.reminders) ? nameState.reminders
+              .sort(
+                (a, b) => compareAsc(
+                  utcToZonedTime(a.datetime, 'America/Panama'),
+                  utcToZonedTime(b.datetime, 'America/Panama')
+                )
               )
-            )
-            .filter(dateFilter(parsedDate))
-            .map((reminder, index) =>
-              <ReminderDetails
-                key={index}
-                id={reminder._id}
-                description={reminder.description}
-                color={reminder.color}
-                datetime={utcToZonedTime(reminder.datetime, 'America/Panama')}
-                city={reminder.city}
-                deleteReminder={props.deleteReminder}
-              />
-            ) : null
-        }
+              .filter(dateFilter(parsedDate))
+              .map((reminder, index) =>
+                <ReminderDetails
+                  key={index}
+                  id={reminder._id}
+                  description={reminder.description}
+                  color={reminder.color}
+                  datetime={utcToZonedTime(reminder.datetime, 'America/Panama')}
+                  city={reminder.city}
+                  deleteReminder={props.deleteReminder}
+                />
+              ) : null
+          }
+        </div>
       </div>
     );
   }
 
   return (
     <div className='full-day'>
-      <div>
+      <div className="full-day-titlebar">
         <div>Time</div>
         <div>City</div>
         <div>Reminder</div>
+        <div>Actions</div>
       </div>
-      <div>
+      <div className="full-day-hours">
         {fullDay}
       </div>
     </div>

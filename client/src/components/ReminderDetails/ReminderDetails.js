@@ -1,20 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Bootstrap components
+import {
+  Button,
+  ButtonGroup
+} from 'react-bootstrap';
+
 export const ReminderDetails = (props) => {
   const edit = (id) => {
     window.location.href = `/edit/${id}`;
   };
 
   return (
-    <div
-      style={{ backgroundColor: props.color }}
-      className='daily-reminder'
-    >
-      <div>{props.description}</div>
+    <div style={{ backgroundColor: props.color }} className="reminder-details">
       <div>{props.city}</div>
-      <button onClick={() => edit(props.id)}>Edit</button>
-      <button onClick={() => props.deleteReminder(props.id)}>Delete</button>
+      <div>{props.description}</div>
+      <ButtonGroup>
+        <Button variant="light" onClick={() => edit(props.id)}>Edit</Button>
+        <Button variant="light" onClick={() => props.deleteReminder(props.id)}>Delete</Button>
+      </ButtonGroup>
     </div>
   );
 };
