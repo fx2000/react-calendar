@@ -13,8 +13,6 @@ export const Edit = (props) => {
   const [startDate, setStartDate] = useState(new Date());
   const { register, handleSubmit, errors } = useForm();
 
-  console.log(reminder);
-
   // Call reminders API
   useEffect(() => {
     remindersApi.details(id).then(
@@ -37,7 +35,8 @@ export const Edit = (props) => {
   };
 
   return (
-    <div>
+    <div className="add-form">
+      <h1>Edit reminder</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="description">Reminder: </label>
         <input
@@ -56,7 +55,7 @@ export const Edit = (props) => {
           ref={register({ required: true })}
         />
         <label htmlFor="color">Color: </label>
-        { reminder.color &&
+        {reminder.color &&
           <input
             type="color"
             id="color"
@@ -65,7 +64,7 @@ export const Edit = (props) => {
             ref={register({ required: true })}
           />
         }
-        <label htmlFor="datetime">Date & Time: </label>
+        <label htmlFor="datetime">Date & Time: </label><br />
         <DatePicker
           selected={startDate}
           onChange={date => setStartDate(date)}
@@ -74,9 +73,9 @@ export const Edit = (props) => {
           timeIntervals={60}
           timeCaption="Time"
           dateFormat="MMMM d, yyyy h:mm aa"
-        />
-        {errors.description && <span>You must add a description</span>}
-        {errors.city && <span>You must add a city</span>}
+        /><br />
+        {errors.description && <span className="error">You must add a description</span>}<br />
+        {errors.city && <span className="error">You must add a city</span>}<br />
         <button type='submit'>Submit</button>
       </form>
     </div>

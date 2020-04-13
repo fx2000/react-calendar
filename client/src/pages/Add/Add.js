@@ -17,7 +17,6 @@ export const Add = () => {
       color: data.color,
       datetime: startDate
     };
-    console.log(newReminder);
     remindersApi.create(newReminder).then(window.location.href = '/');
   };
 
