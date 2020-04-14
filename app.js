@@ -59,7 +59,7 @@ app.use(
 );
 
 // Routes
-app.use('/api', remindersRouter);
+app.get('/api', remindersRouter);
 
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
