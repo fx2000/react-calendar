@@ -15,7 +15,7 @@ export const Titlebar = () => {
     <Navbar bg="dark" expand="lg" variant="dark">
       <Navbar.Brand href="/">
         <FontAwesomeIcon icon='calendar-alt' />
-        {' '}Jobsity Calendar
+        {' '}React Calendar
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">

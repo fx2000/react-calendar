@@ -61,6 +61,10 @@ app.use(
 // Routes
 app.use('/api', remindersRouter);
 
+app.get('*', (req, res) => {
+  res.sendfile(path.join(__dirname, 'client/build/index.html'));
+});
+
 // Catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
